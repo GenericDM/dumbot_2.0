@@ -1,9 +1,5 @@
 const fs = require("fs");
-const enmap = require('enmap');
-const enmapLevel = require('enmap-level');
 const Discord = require("discord.js");
-const pointsProvider = new enmapLevel({name: "points"});
-const points = new enmap({provider: pointsProvider});
 var bot = new Discord.Client();
 const auth = require("./auth.json");
 //based off of copper's bot although it's pretty much its own thing
@@ -11,10 +7,14 @@ const auth = require("./auth.json");
 bot.login(auth.token);
 var prefix = auth.prefix
 bot.on("ready", function () {
-	console.log("Bot Ready");
+	console.log(`Bot Ready, currently with ${bot.users.size} users in ${bot.guilds.size} guilds.`);
 	bot.user.setActivity('prefix is: ' + (prefix));
 	bot.user.setStatus('dnd');
 });
+
+const Enmap = require('enmap');
+const EnmapLevel = require('enmap-level');
+bot.points = new Enmap({provider: new EnmapLevel({name: "points"})});
 
 function convertToHex(str) {
 	var hex = '';
@@ -49,16 +49,42 @@ bot.on("guildMemberAdd", (member) => {
 	member.guild.channels.find('name', 'general').send(`Welcome to ${member.guild.name}, ${member.user} enjoy your (hopefully long) stay.`);
 });
 
+bot.on("guildMemberRemove", (member) => {
+	console.log(`User "${member.user.username}" has left ${member.guild.name}`);
+	member.guild.channels.find('name', 'general').send(`"${member.user}" left, sucks to be them.`);
+});
+
 bot.on("message", function (message) {
 
 	if (message.channel.type !== "text") return;
-	if (!message.content.startsWith(auth.prefix)) return;
 	if (message.author == bot.user) return;
 	if (message.author.bot == true) return;
 
+const score = bot.points.get(`${message.author.id}_${message.guild.id}`) || 
+	{
+		userID: message.author.id,
+		guildID: message.guild.id,
+		points: 0,
+		level: 0
+};
+
+score.lastSeen = new Date();
+score.points++;
+const curLevel = Math.floor(0.1 * Math.sqrt(score.points));
+if (score.level < curLevel) {
+	message.reply(`haha ur now gay level **${curLevel}** in **${message.guild.name}**, good luck with that.`);
+	score.level = curLevel;
+}
+
+bot.points.set(`${message.author.id}_${message.guild.id}`, score);
+
+	if (!message.content.startsWith(auth.prefix)) return;
 	var args = message.content.substring((auth.prefix).length).trim().split(/ +/g);
 
 	switch (args.shift().toLowerCase()) {
+		case `points`:
+			message.channel.send(`You have ${score.points} points, and ${score.level} gay levels`);
+			break;
 		case 'kickme':
 			message.channel.send(`lmao`)
 			message.member.kick(`you played yourself`)
