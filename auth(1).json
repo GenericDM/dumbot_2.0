@@ -1,3 +1,4 @@
+//change this to auth.json when you're using this
 {
   token: "ur token"
   prefix: "ur prefix"
