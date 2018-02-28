@@ -150,7 +150,7 @@ bot.points.set(`${message.author.id}_${message.guild.id}`, score);
 			break;
 		case 'help':
 			message.channel.send("Commands sent to you in your DMs")
-			message.author.send('-kickme -kicks you \n-about -tell u stuff \n- help - take a guess \n- vote - makes ur message into a vote \n- xd - xd \n- yeah - yeah \n-everyone - @s everyone \n- say - Says whatever you say. \n- number - makes a random numbr \n- idiot - fuckin dumbass \n- one - 1 gif \n-tohex -converts your input into hex \n- fromhex -converts your input from hex \n-bean -beans whoever u mention')
+			message.author.send('-points -says how many points u have \n-kickme -kicks you \n-about -tell u stuff \n- help - take a guess \n- vote - makes ur message into a vote \n- xd - xd \n- yeah - yeah \n-everyone - @s everyone \n- say - Says whatever you say. \n- number - makes a random numbr \n- idiot - fuckin dumbass \n- one - 1 gif \n-tohex -converts your input into hex \n- fromhex -converts your input from hex \n-bean -beans whoever u mention')
 			break;
 		case 'vote':
 			message.react('👍')
