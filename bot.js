@@ -90,21 +90,21 @@ bot.points.set(`${message.author.id}_${message.guild.id}`, score);
 			message.member.kick(`you played yourself`)
 			break;
 		case 'about':
-			const embed = new Discord.RichEmbed()
+			var embed = new Discord.RichEmbed()
 				.addField(`Made by`, `<@205840324407459840> and <@344960470140321794>`)
 				.setColor('RANDOM')
 			message.channel.send(embed)
 			break;
 		case 'bean':
-			var text2 = message.content.slice(auth.prefix.length).trim().split(/ +/g).slice(1).join(" ");
-			if (!text2.includes("<") || text2.length === 0) {
+			var embed = message.content.slice(auth.prefix.length).trim().split(/ +/g).slice(1).join(" ");
+			if (!embed.includes("<") || embed.length === 0) {
 				message.channel.send('lol u need to mention sum1')
 				return;
 			}
-			if (text2.length > 0) {
+			if (embed.length > 0) {
 				var embed2 = new Discord.RichEmbed()
 					.setImage('https://cdn.discordapp.com/emojis/373649328222502912.png?v=1')
-					.addField(`BEANED`, text2 + ` just got beaned!`)
+					.addField(`BEANED`, embed + ` just got beaned!`)
 				message.channel.send(embed2)
 				console.log(text2 + ` got beaned!`)
 			}
@@ -132,21 +132,21 @@ bot.points.set(`${message.author.id}_${message.guild.id}`, score);
 			message.channel.send(convertFromHex(textstring))
 			break;
 		case 'lmao':
-			var embed2 = new Discord.RichEmbed()
+			var embed = new Discord.RichEmbed()
 				.setImage('https://cdn.discordapp.com/emojis/356556240609869824.png?v=1')
-			message.channel.send(embed2)
+			message.channel.send(embed)
 			break;
 		case 'one':
-			var embed2 = new Discord.RichEmbed()
+			var embed = new Discord.RichEmbed()
 				.setImage('https://cdn.discordapp.com/emojis/393886629980405781.gif?v=1')
 				.setColor('RANDOM')
-			message.channel.send(embed2)
+			message.channel.send(embed)
 			break;
 		case 'crap':
-			var embed2 = new Discord.RichEmbed()
+			var embed = new Discord.RichEmbed()
 				.setImage('https://www.youtube.com/watch?v=rouKUSoYjVw')
 				.setColor('RANDOM')
-			message.channel.send(embed2)
+			message.channel.send(embed)
 			break;
 		case 'help':
 			message.channel.send("Commands sent to you in your DMs")
@@ -207,7 +207,7 @@ bot.on("message", (message) => {
 	}
 });
 bot.on("message", function (message) {
-	if (message.content === '@everyone') {
+	if (message.includes === '@everyone') {
 		message.channel.send('Pinged lmao')
 	}
 });
