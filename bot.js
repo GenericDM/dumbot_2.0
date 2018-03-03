@@ -93,7 +93,6 @@ bot.on("message", function (message) {
 				serverSettings.welcomeMessageToggle = 0;
 				message.channel.send(`turned off join messages`)
 			}
-			message.channel.send(`lmao consider it done my boi`);
 			break;
 		case 'toggleleavemessage':
 			if (serverSettings.leaveMessageToggle = 0) {
@@ -233,21 +232,17 @@ bot.on("message", function (message) {
 		message.channel.send('Pinged lmao')
 	}
 });
-bot.on("guildMemberAdd", (member) => {
-	const serverSettings = bot.server.get(`${member.guild.id}`) || {
-		welcomeMessageToggle: 1,
-		leaveMessageToggle: 1,
-	};
-	if (serverSettings.welcomeMessageToggle == 0) return;
-	console.log(`New User "${member.user.username}" has joined "${member.guild.name}"`);
-	member.guild.channels.find('name', 'general').send(`Welcome to ${member.guild.name}, ${member.user} enjoy your (hopefully long) stay.`);
-});
-bot.on("guildMemberRemove", (member) => {
-	const serverSettings = bot.server.get(`${member.guild.id}`) || {
-		welcomeMessageToggle: 1,
-		leaveMessageToggle: 1,
-	};
-	if (serverSettings.leaveMessageToggle == 0) return;
-	console.log(`User "${member.user.username}" has left ${member.guild.name}`);
-	member.guild.channels.find('name', 'general').send(`"${member.user}" left, sucks to be them.`);
-});
+//bot.on("guildMemberAdd", (member) => {
+//	if (serverSettings.welcomeMessageToggle == 0) return;
+//	console.log(`New User "${member.user.username}" has joined "${member.guild.name}"`);
+//	member.guild.channels.find('name', 'general').send(`Welcome to ${member.guild.name}, ${member.user} enjoy your (hopefully long) stay.`);
+//});
+//bot.on("guildMemberRemove", (member) => {
+//	const serverSettings = bot.server.get(`${member.guild.id}`) || {
+//		welcomeMessageToggle: 1,
+//		leaveMessageToggle: 1,
+//	};
+//	if (serverSettings.leaveMessageToggle == 0) return;
+//	console.log(`User "${member.user.username}" has left ${member.guild.name}`);
+//	member.guild.channels.find('name', 'general').send(`"${member.user}" left, sucks to be them.`);
+//});
