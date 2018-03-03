@@ -14,8 +14,16 @@ bot.on("ready", function () {
 
 const Enmap = require('enmap');
 const EnmapLevel = require('enmap-level');
-bot.points = new Enmap({provider: new EnmapLevel({name: "points"})});
-bot.server = new Enmap({provider: new EnmapLevel({name: "serverSettings"})});
+bot.points = new Enmap({
+	provider: new EnmapLevel({
+		name: "points"
+	})
+});
+bot.server = new Enmap({
+	provider: new EnmapLevel({
+		name: "serverSettings"
+	})
+});
 
 function convertToHex(str) {
 	var hex = '';
@@ -46,13 +54,13 @@ bot.on("error", (err) => {
 //});
 
 bot.on("guildMemberAdd", (member) => {
-	if (serverSettings.welcomeMessageToggle = 0) return;
+	if (bot.serverSettings.welcomeMessageToggle = 0) return;
 	console.log(`New User "${member.user.username}" has joined "${member.guild.name}"`);
 	member.guild.channels.find('name', 'general').send(`Welcome to ${member.guild.name}, ${member.user} enjoy your (hopefully long) stay.`);
 });
 
 bot.on("guildMemberRemove", (member) => {
-	if (serverSettings.leaveMessageToggle = 0) return;
+	if (bot.serverSettings.leaveMessageToggle = 0) return;
 	console.log(`User "${member.user.username}" has left ${member.guild.name}`);
 	member.guild.channels.find('name', 'general').send(`"${member.user}" left, sucks to be them.`);
 });
@@ -63,29 +71,27 @@ bot.on("message", function (message) {
 	if (message.author == bot.user) return;
 	if (message.author.bot == true) return;
 
-const serverSettings = bot.server.get(`${message.guild.id}`) ||
-	{
+	const serverSettings = bot.server.get(`${message.guild.id}`) || {
 		welcomeMessageToggle: 1,
 		leaveMessageToggle: 1,
-};
+	};
 
-const score = bot.points.get(`${message.author.id}_${message.guild.id}`) || 
-	{
+	const score = bot.points.get(`${message.author.id}_${message.guild.id}`) || {
 		userID: message.author.id,
 		guildID: message.guild.id,
 		points: 0,
 		level: 0
-};
+	};
 
-score.lastSeen = new Date();
-score.points++;
-const curLevel = Math.floor(0.1 * Math.sqrt(score.points));
-if (score.level < curLevel) {
-	message.reply(`haha ur now gay level **${curLevel}** in **${message.guild.name}**, good luck with that.`);
-	score.level = curLevel;
-}
+	score.lastSeen = new Date();
+	score.points++;
+	const curLevel = Math.floor(0.1 * Math.sqrt(score.points));
+	if (score.level < curLevel) {
+		message.reply(`haha ur now gay level **${curLevel}** in **${message.guild.name}**, good luck with that.`);
+		score.level = curLevel;
+	}
 
-bot.points.set(`${message.author.id}_${message.guild.id}`, score);
+	bot.points.set(`${message.author.id}_${message.guild.id}`, score);
 
 	if (!message.content.startsWith(auth.prefix)) return;
 	var args = message.content.substring((auth.prefix).length).trim().split(/ +/g);
@@ -93,22 +99,22 @@ bot.points.set(`${message.author.id}_${message.guild.id}`, score);
 	switch (args.shift().toLowerCase()) {
 		case 'togglejoinmessage':
 			if (serverSettings.welcomeMessageToggle = 0) {
-					serverSettings.welcomeMessageToggle = 1;
-					message.channel.send(`turned on join messages`)
-				} else {
-					serverSettings.welcomeMessageToggle = 0;
-					message.channel.send(`turned off join messages`)
-				}
+				serverSettings.welcomeMessageToggle = 1;
+				message.channel.send(`turned on join messages`)
+			} else {
+				serverSettings.welcomeMessageToggle = 0;
+				message.channel.send(`turned off join messages`)
+			}
 			message.channel.send(`lmao consider it done my boi`);
 			break;
 		case 'toggleleavemessage':
 			if (serverSettings.leaveMessageToggle = 0) {
-					serverSettings.leaveMessageToggle = 1;
-					message.channel.send(`turned on leave messages`)
-				} else {
-					serverSettings.leaveMessageToggle = 0;
-					message.channel.send(`turned off leave messages`)
-				}
+				serverSettings.leaveMessageToggle = 1;
+				message.channel.send(`turned on leave messages`)
+			} else {
+				serverSettings.leaveMessageToggle = 0;
+				message.channel.send(`turned off leave messages`)
+			}
 			break;
 		case `points`:
 			message.channel.send(`You have ${score.points} points, and ${score.level} gay levels`);
