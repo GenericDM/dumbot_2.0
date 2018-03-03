@@ -15,6 +15,7 @@ bot.on("ready", function () {
 const Enmap = require('enmap');
 const EnmapLevel = require('enmap-level');
 bot.points = new Enmap({provider: new EnmapLevel({name: "points"})});
+bot.server = new Enmap({provider: new EnmapLevel({name: "serverSettings"})});
 
 function convertToHex(str) {
 	var hex = '';
@@ -45,11 +46,13 @@ bot.on("error", (err) => {
 //});
 
 bot.on("guildMemberAdd", (member) => {
+	if (serverSettings.welcomeMessageToggle = 0) return;
 	console.log(`New User "${member.user.username}" has joined "${member.guild.name}"`);
 	member.guild.channels.find('name', 'general').send(`Welcome to ${member.guild.name}, ${member.user} enjoy your (hopefully long) stay.`);
 });
 
 bot.on("guildMemberRemove", (member) => {
+	if (serverSettings.leaveMessageToggle = 0) return;
 	console.log(`User "${member.user.username}" has left ${member.guild.name}`);
 	member.guild.channels.find('name', 'general').send(`"${member.user}" left, sucks to be them.`);
 });
@@ -59,6 +62,12 @@ bot.on("message", function (message) {
 	if (message.channel.type !== "text") return;
 	if (message.author == bot.user) return;
 	if (message.author.bot == true) return;
+
+const serverSettings = bot.server.get(`${message.guild.id}`) ||
+	{
+		welcomeMessageToggle: 1,
+		leaveMessageToggle: 1,
+};
 
 const score = bot.points.get(`${message.author.id}_${message.guild.id}`) || 
 	{
@@ -82,6 +91,20 @@ bot.points.set(`${message.author.id}_${message.guild.id}`, score);
 	var args = message.content.substring((auth.prefix).length).trim().split(/ +/g);
 
 	switch (args.shift().toLowerCase()) {
+		case 'togglejoinmessage':
+			if (serverSettings.welcomeMessageToggle = 0) {
+					serverSettings.welcomeMessageToggle = 1;
+				} else {
+					serverSettings.welcomeMessageToggle = 0;
+				}
+			break;
+		case 'toggleleavemessage':
+			if (serverSettings.leaveMessageToggle = 0) {
+					serverSettings.leaveMessageToggle = 1;
+				} else {
+					serverSettings.leaveMessageToggle = 0;
+				}
+			break;
 		case `points`:
 			message.channel.send(`You have ${score.points} points, and ${score.level} gay levels`);
 			break;
