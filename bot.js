@@ -54,13 +54,13 @@ bot.on("error", (err) => {
 //});
 
 bot.on("guildMemberAdd", (member) => {
-	if (bot.serverSettings.welcomeMessageToggle = 0) return;
+	if (bot.serverSettings.welcomeMessageToggle == 0) return;
 	console.log(`New User "${member.user.username}" has joined "${member.guild.name}"`);
 	member.guild.channels.find('name', 'general').send(`Welcome to ${member.guild.name}, ${member.user} enjoy your (hopefully long) stay.`);
 });
 
 bot.on("guildMemberRemove", (member) => {
-	if (bot.serverSettings.leaveMessageToggle = 0) return;
+	if (bot.serverSettings.leaveMessageToggle == 0) return;
 	console.log(`User "${member.user.username}" has left ${member.guild.name}`);
 	member.guild.channels.find('name', 'general').send(`"${member.user}" left, sucks to be them.`);
 });
