@@ -94,18 +94,21 @@ bot.points.set(`${message.author.id}_${message.guild.id}`, score);
 		case 'togglejoinmessage':
 			if (serverSettings.welcomeMessageToggle = 0) {
 					serverSettings.welcomeMessageToggle = 1;
+					message.channel.send(`turned on join messages`)
 				} else {
 					serverSettings.welcomeMessageToggle = 0;
+					message.channel.send(`turned off join messages`)
 				}
 			message.channel.send(`lmao consider it done my boi`);
 			break;
 		case 'toggleleavemessage':
 			if (serverSettings.leaveMessageToggle = 0) {
 					serverSettings.leaveMessageToggle = 1;
+					message.channel.send(`turned on leave messages`)
 				} else {
 					serverSettings.leaveMessageToggle = 0;
+					message.channel.send(`turned off leave messages`)
 				}
-			message.channel.send(`lmao consider it done my boi`);
 			break;
 		case `points`:
 			message.channel.send(`You have ${score.points} points, and ${score.level} gay levels`);
