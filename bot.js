@@ -97,6 +97,7 @@ bot.points.set(`${message.author.id}_${message.guild.id}`, score);
 				} else {
 					serverSettings.welcomeMessageToggle = 0;
 				}
+			message.channel.send(`lmao consider it done my boi`);
 			break;
 		case 'toggleleavemessage':
 			if (serverSettings.leaveMessageToggle = 0) {
@@ -104,6 +105,7 @@ bot.points.set(`${message.author.id}_${message.guild.id}`, score);
 				} else {
 					serverSettings.leaveMessageToggle = 0;
 				}
+			message.channel.send(`lmao consider it done my boi`);
 			break;
 		case `points`:
 			message.channel.send(`You have ${score.points} points, and ${score.level} gay levels`);
