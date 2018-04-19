@@ -42,7 +42,7 @@ function convertFromHex(hex) {
 }
 
 bot.on("error", (err) => {
-	console.log(`Error Encountered!\n${err.error}`)
+	console.log(err.error)
 });
 
 //bot.on("guildCreate", (server) => {
@@ -82,6 +82,7 @@ bot.on("message", function (message) {
 	bot.points.set(`${message.author.id}_${message.guild.id}`, score);
 
 	if (!message.content.startsWith(auth.prefix)) return;
+	if (message.includes("...")) return;
 	var args = message.content.substring((auth.prefix).length).trim().split(/ +/g);
 
 	switch (args.shift().toLowerCase()) {
@@ -215,14 +216,12 @@ bot.on("message", function (message) {
 			break;
 		default:
 			if (message.author.equals(bot.user)) return;
-			message.channel.send("I don't recognise this command, try something else!", {
-				tts: false
-			})
+			message.channel.send("I don't recognise this command, try something else!")
 			message.react('🇪')
 	}
 });
 bot.on("message", (message) => {
-	if (message.content === '<@408821911351590912>') {
+	if (message.content === bot.user.id) {
 		var help = (prefix + 'help')
 		message.channel.send('Type ' + help + ' to see a list of commands')
 	}
