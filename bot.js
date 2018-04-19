@@ -82,7 +82,7 @@ bot.on("message", function (message) {
 	bot.points.set(`${message.author.id}_${message.guild.id}`, score);
 
 	if (!message.content.startsWith(auth.prefix)) return;
-	if (message.includes("...")) return;
+	if (message.content.startsWith("...")) return;
 	var args = message.content.substring((auth.prefix).length).trim().split(/ +/g);
 
 	switch (args.shift().toLowerCase()) {
