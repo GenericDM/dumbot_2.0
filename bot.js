@@ -128,7 +128,7 @@ bot.on("message", function (message) {
 					.setImage('https://cdn.discordapp.com/emojis/373649328222502912.png?v=1')
 					.addField(`BEANED`, embed + ` just got beaned!`)
 				message.channel.send(embed2)
-				console.log(text2 + ` got beaned!`)
+				console.log(embed + ` got beaned!`)
 			}
 
 			break;
